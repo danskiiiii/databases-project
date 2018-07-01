@@ -9,26 +9,26 @@ GO
 
 --PROCEDURY
 --------------------
---Operujπca na tabeli transakcyjnej
-EXEC Dodaj_zdarzenie 101, 20002,3,55   --prawid≥owe     
-EXEC Dodaj_zdarzenie 195, 20001,4,5   --b≥Ídne,nie ma takiego meczu           
-EXEC Dodaj_zdarzenie 195, 39001,4,5   --b≥Ídne,nie ma takiego pi≥karza 
+--OperujƒÖca na tabeli transakcyjnej
+EXEC Dodaj_zdarzenie 101, 20002,3,55   --prawid≈Çowe     
+EXEC Dodaj_zdarzenie 195, 20001,4,5   --b≈Çƒôdne,nie ma takiego meczu           
+EXEC Dodaj_zdarzenie 195, 39001,4,5   --b≈Çƒôdne,nie ma takiego pi≈Çkarza 
 
---Wstawiajπca 
-EXEC Dodaj_pi≥karza 'Jan','Nowak', 'Polska', 6,900 --prawid≥owe
-EXEC Dodaj_pi≥karza 'Jan','Nowak', 'Polska', 16,900 --b≥Ídne,nie ma takiej druøyny
+--WstawiajƒÖca 
+EXEC Dodaj_pi≈Çkarza 'Jan','Nowak', 'Polska', 6,900 --prawid≈Çowe
+EXEC Dodaj_pi≈Çkarza 'Jan','Nowak', 'Polska', 16,900 --b≈Çƒôdne,nie ma takiej dru≈ºyny
 
---Modyfikujπca
-EXEC Po_premii 1,50 --prawid≥owe
-SELECT * FROM Pi≥karze;
+--ModyfikujƒÖca
+EXEC Po_premii 1,50 --prawid≈Çowe
+SELECT * FROM Pi≈Çkarze;
 
-EXEC Po_premii 56,25 --b≥Ídne,nie ma takiej druøyny
+EXEC Po_premii 56,25 --b≈Çƒôdne,nie ma takiej dru≈ºyny
 
 
---Usuwajπca
-EXEC UsuÒ_pi≥karza 'Dele','Alli'
+--UsuwajƒÖca
+EXEC Usu≈Ñ_pi≈Çkarza 'Dele','Alli'
 
---Raportujπca
+--RaportujƒÖca
 EXEC Strzelcy
 
 --FUNKCJE
@@ -39,19 +39,19 @@ SELECT dbo.Ile_na_pensje(2)
 SELECT dbo.Ile_na_pensje(3)
 
 --Tablicowa
-SELECT * FROM NiedostÍpni()
+SELECT * FROM Niedostƒôpni()
 
 --TRIGGERY
 INSERT INTO  Zdarzenia_meczowe VALUES ( 105 , 20001 , 1  , 65  );
-SELECT * FROM Pi≥karze;
+SELECT * FROM Pi≈Çkarze;
 
 
-SELECT * FROM Pi≥karze;
+SELECT * FROM Pi≈Çkarze;
 SELECT * FROM Trenerzy;
-SELECT * FROM Druøyny;
+SELECT * FROM Dru≈ºyny;
 SELECT * FROM Stadiony;
 SELECT * FROM Mecze;
 SELECT * FROM Zdarzenia_meczowe ;
-SELECT * FROM Typy_zdarzeÒ;
+SELECT * FROM Typy_zdarze≈Ñ;
 
 

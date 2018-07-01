@@ -6,12 +6,12 @@ IF OBJECT_ID('Kartkowicze','V') IS NOT NULL
 DROP VIEW Kartkowicze
 GO
 
-CREATE VIEW Kartkowicze(imiÍ,nazwisko)
+CREATE VIEW Kartkowicze(imiƒô,nazwisko)
 AS
-   SELECT  imiÍ , nazwisko
-   FROM    Pi≥karze
-   WHERE   nr_licencji in (SELECT DISTINCT nr_licencji from Pi≥karze p join Zdarzenia_meczowe z 
-					  on p.nr_licencji = z.pi≥karz
+   SELECT  imiƒô , nazwisko
+   FROM    Pi≈Çkarze
+   WHERE   nr_licencji in (SELECT DISTINCT nr_licencji from Pi≈Çkarze p join Zdarzenia_meczowe z 
+					  on p.nr_licencji = z.pi≈Çkarz
 					   WHERE z.typ =3 or z.typ=4)
 GO
 
@@ -19,97 +19,97 @@ IF OBJECT_ID('Spotkania','V') IS NOT NULL
 DROP VIEW Spotkania
 GO
 
-CREATE VIEW Spotkania(gospodarze, A ,B,goúcie)
+CREATE VIEW Spotkania(gospodarze, A ,B,go≈õcie)
 AS
-   SELECT d1.nazwa, m.bramki_gosp, m.bramki_goúÊ,d2.nazwa   
-   FROM Mecze m join Druøyny d1 on  m.gospodarze = d1.id_druøyny   join Druøyny d2 on m.goúcie=d2.id_druøyny    			
+   SELECT d1.nazwa, m.bramki_gosp, m.bramki_go≈õƒá,d2.nazwa   
+   FROM Mecze m join Dru≈ºyny d1 on  m.gospodarze = d1.id_dru≈ºyny   join Dru≈ºyny d2 on m.go≈õcie=d2.id_dru≈ºyny    			
 GO
 
 
 
 --PROCEDURY
 --------------------
---Operujπca na tabeli transakcyjnej
+--OperujƒÖca na tabeli transakcyjnej
 IF OBJECT_ID('Dodaj_zdarzenie','P') IS NOT NULL
 DROP PROCEDURE Dodaj_zdarzenie
 GO
 
-CREATE PROCEDURE Dodaj_zdarzenie (@nr_meczu INT, @id_pi≥karza INT, @typ INT, @minuta INT)
+CREATE PROCEDURE Dodaj_zdarzenie (@nr_meczu INT, @id_pi≈Çkarza INT, @typ INT, @minuta INT)
                          
 AS
    IF NOT EXISTS ( SELECT * from Mecze WHERE nr_meczu = @nr_meczu)
         BEGIN
                 RAISERROR (N'Bledny numer meczu: %s', 16, 1,  @nr_meczu )
         END
-	IF NOT EXISTS ( SELECT * from Pi≥karze WHERE nr_licencji = @id_pi≥karza)
+	IF NOT EXISTS ( SELECT * from Pi≈Çkarze WHERE nr_licencji = @id_pi≈Çkarza)
         BEGIN
-                RAISERROR (N'Bledny numer licencji pi≥karza: %s', 16, 1, @id_pi≥karza  )
+                RAISERROR (N'Bledny numer licencji pi≈Çkarza: %s', 16, 1, @id_pi≈Çkarza  )
         END
 
-	IF NOT EXISTS ( SELECT * from Typy_zdarzeÒ WHERE id_zdarzenia = @typ)
+	IF NOT EXISTS ( SELECT * from Typy_zdarze≈Ñ WHERE id_zdarzenia = @typ)
         BEGIN
-                RAISERROR (N'Bledny numer licencji pi≥karza: %s', 16, 1, @typ )
+                RAISERROR (N'Bledny numer licencji pi≈Çkarza: %s', 16, 1, @typ )
         END
 
-INSERT INTO Zdarzenia_meczowe( mecz, pi≥karz, typ, minuta)
-        VALUES (@nr_meczu, @id_pi≥karza, @typ , @minuta)
+INSERT INTO Zdarzenia_meczowe( mecz, pi≈Çkarz, typ, minuta)
+        VALUES (@nr_meczu, @id_pi≈Çkarza, @typ , @minuta)
 GO
 
---Wstawiajπca
-IF OBJECT_ID('Dodaj_pi≥karza','P') IS NOT NULL
-DROP PROCEDURE Dodaj_pi≥karza
+--WstawiajƒÖca
+IF OBJECT_ID('Dodaj_pi≈Çkarza','P') IS NOT NULL
+DROP PROCEDURE Dodaj_pi≈Çkarza
 GO
 
-CREATE PROCEDURE Dodaj_pi≥karza (@imiÍ VARCHAR(20), @nazwisko VARCHAR(30), 
-                          @narodowoúÊ VARCHAR(20), @druøyna INT, @pensja MONEY)
+CREATE PROCEDURE Dodaj_pi≈Çkarza (@imiƒô VARCHAR(20), @nazwisko VARCHAR(30), 
+                          @narodowo≈õƒá VARCHAR(20), @dru≈ºyna INT, @pensja MONEY)
                          
 AS
-   IF NOT EXISTS ( SELECT * from Druøyny WHERE id_druøyny = @druøyna)
+   IF NOT EXISTS ( SELECT * from Dru≈ºyny WHERE id_dru≈ºyny = @dru≈ºyna)
         BEGIN
-                RAISERROR (N'Bledne id druøyny: %s', 16, 1,  @druøyna )
+                RAISERROR (N'Bledne id dru≈ºyny: %s', 16, 1,  @dru≈ºyna )
         END
 	
-INSERT INTO Pi≥karze( imiÍ , nazwisko, narodowoúÊ ,druøyna, pensja)
-        VALUES (@imiÍ, @nazwisko, @narodowoúÊ , @druøyna,@pensja)
+INSERT INTO Pi≈Çkarze( imiƒô , nazwisko, narodowo≈õƒá ,dru≈ºyna, pensja)
+        VALUES (@imiƒô, @nazwisko, @narodowo≈õƒá , @dru≈ºyna,@pensja)
 GO
 
---Modyfikujπca
+--ModyfikujƒÖca
 IF OBJECT_ID('Po_premii','P') IS NOT NULL
 DROP PROCEDURE Po_premii
 GO
-CREATE PROCEDURE Po_premii (@druøyna INT, @proc TINYINT )       
+CREATE PROCEDURE Po_premii (@dru≈ºyna INT, @proc TINYINT )       
 AS
 BEGIN 
-IF NOT EXISTS ( SELECT * from Druøyny WHERE id_druøyny = @druøyna)
+IF NOT EXISTS ( SELECT * from Dru≈ºyny WHERE id_dru≈ºyny = @dru≈ºyna)
         BEGIN
-                RAISERROR (N'Bledne id druøyny: %s', 16, 1,  @druøyna )
+                RAISERROR (N'Bledne id dru≈ºyny: %s', 16, 1,  @dru≈ºyna )
         END
-UPDATE Pi≥karze
-set dodatki = dodatki - (1.0*(dodatki*@proc/100)) where druøyna = @druøyna
+UPDATE Pi≈Çkarze
+set dodatki = dodatki - (1.0*(dodatki*@proc/100)) where dru≈ºyna = @dru≈ºyna
 END;
 GO
 
---Usuwajπca
-IF OBJECT_ID('UsuÒ_pi≥karza','P') IS NOT NULL
-DROP PROCEDURE UsuÒ_pi≥karza
+--UsuwajƒÖca
+IF OBJECT_ID('Usu≈Ñ_pi≈Çkarza','P') IS NOT NULL
+DROP PROCEDURE Usu≈Ñ_pi≈Çkarza
 GO
 
-CREATE PROCEDURE UsuÒ_pi≥karza (@imiÍ VARCHAR(20), @nazwisko VARCHAR(30))                         
+CREATE PROCEDURE Usu≈Ñ_pi≈Çkarza (@imiƒô VARCHAR(20), @nazwisko VARCHAR(30))                         
 AS  	
-DELETE FROM Pi≥karze WHERE imiÍ = @imiÍ and nazwisko = @nazwisko
+DELETE FROM Pi≈Çkarze WHERE imiƒô = @imiƒô and nazwisko = @nazwisko
 GO
 
---Raportujπca
+--RaportujƒÖca
 IF OBJECT_ID('Strzelcy','P') IS NOT NULL
 DROP PROCEDURE Strzelcy
 GO
 
 CREATE PROCEDURE Strzelcy                        
 AS  					   
-SELECT imiÍ, nazwisko , count (typ) [liczba bramek]
-FROM Pi≥karze p join Zdarzenia_meczowe r
-on p.nr_licencji = r.pi≥karz 
-GROUP BY imiÍ, nazwisko,typ
+SELECT imiƒô, nazwisko , count (typ) [liczba bramek]
+FROM Pi≈Çkarze p join Zdarzenia_meczowe r
+on p.nr_licencji = r.pi≈Çkarz 
+GROUP BY imiƒô, nazwisko,typ
 HAVING typ=1
 ORDER BY count (typ) desc
 GO
@@ -120,27 +120,27 @@ GO
 IF OBJECT_ID('Ile_na_pensje') IS NOT NULL
 DROP FUNCTION Ile_na_pensje
 GO
-CREATE FUNCTION Ile_na_pensje  (@druøyna INT)
+CREATE FUNCTION Ile_na_pensje  (@dru≈ºyna INT)
         RETURNS MONEY
 AS
 BEGIN
 DECLARE @pensje MONEY; 
-SELECT  @pensje = SUM (pensja+dodatki) FROM Pi≥karze WHERE druøyna=@druøyna; 
+SELECT  @pensje = SUM (pensja+dodatki) FROM Pi≈Çkarze WHERE dru≈ºyna=@dru≈ºyna; 
 RETURN   @pensje
 END;
 GO
 
 --Tablicowa
-IF OBJECT_ID('NiedostÍpni') IS NOT NULL
-DROP FUNCTION NiedostÍpni
+IF OBJECT_ID('Niedostƒôpni') IS NOT NULL
+DROP FUNCTION Niedostƒôpni
 GO
-CREATE FUNCTION  NiedostÍpni()
+CREATE FUNCTION  Niedostƒôpni()
         RETURNS TABLE
 AS
-       RETURN SELECT   imiÍ,nazwisko, niedostÍpnoúÊ as [data powrotu] ,
-	                   DATEDIFF (DAY, GETDATE(),niedostÍpnoúÊ) as [pozosta≥o dni]
-	   FROM Pi≥karze 
-	   WHERE niedostÍpnoúÊ IS NOT NULL
+       RETURN SELECT   imiƒô,nazwisko, niedostƒôpno≈õƒá as [data powrotu] ,
+	                   DATEDIFF (DAY, GETDATE(),niedostƒôpno≈õƒá) as [pozosta≈Ço dni]
+	   FROM Pi≈Çkarze 
+	   WHERE niedostƒôpno≈õƒá IS NOT NULL
 GO
 
 --TRIGGERY
@@ -158,57 +158,57 @@ DECLARE @temp1 varchar (30)
 DECLARE @temp2 varchar (30)
 DECLARE @zmiana INT
 
-SET @temp1=  (SELECT imiÍ FROM Pi≥karze 
-					WHERE nr_licencji=  (SELECT pi≥karz FROM inserted));
-SET @temp2=  (SELECT nazwisko FROM Pi≥karze 
-					WHERE nr_licencji=  (SELECT pi≥karz FROM inserted));
-SET @zmiana= (SELECT dodatek_p≥acowy FROM  Typy_zdarzeÒ 
+SET @temp1=  (SELECT imiƒô FROM Pi≈Çkarze 
+					WHERE nr_licencji=  (SELECT pi≈Çkarz FROM inserted));
+SET @temp2=  (SELECT nazwisko FROM Pi≈Çkarze 
+					WHERE nr_licencji=  (SELECT pi≈Çkarz FROM inserted));
+SET @zmiana= (SELECT dodatek_p≈Çacowy FROM  Typy_zdarze≈Ñ 
 						WHERE id_zdarzenia = (SELECT typ FROM inserted))
 
 UPDATE
-    Pi≥karze
+    Pi≈Çkarze
 SET
     dodatki = dodatki + @zmiana
 
 	WHERE nr_licencji= (SELECT nr_licencji FROM inserted)	
- PRINT 'Zmieniono wartoúÊ pola dodatki dla pi≥karza ' 
-		+ @temp1+ ' ' + @temp2 + ' o ' + CAST(@zmiana AS VARCHAR)+'Ä'
+ PRINT 'Zmieniono warto≈õƒá pola dodatki dla pi≈Çkarza ' 
+		+ @temp1+ ' ' + @temp2 + ' o ' + CAST(@zmiana AS VARCHAR)+'‚Ç¨'
  END
  GO
 
  --Instead of
-IF OBJECT_ID('podwÛjna_premia', 'TR') IS NOT NULL
-DROP TRIGGER podwÛjna_premia
+IF OBJECT_ID('podw√≥jna_premia', 'TR') IS NOT NULL
+DROP TRIGGER podw√≥jna_premia
 GO
 
-CREATE TRIGGER podwÛjna_premia ON Zdarzenia_meczowe
+CREATE TRIGGER podw√≥jna_premia ON Zdarzenia_meczowe
 INSTEAD OF INSERT
 AS 
 IF ((SELECT typ FROM inserted) = 1 and
-                    (SELECT count(*) FROM Zdarzenia_meczowe z join inserted i on i.pi≥karz=z.pi≥karz					
-					WHERE z.typ=1 and i.pi≥karz=z.pi≥karz and i.mecz=z.mecz)>1)
+                    (SELECT count(*) FROM Zdarzenia_meczowe z join inserted i on i.pi≈Çkarz=z.pi≈Çkarz					
+					WHERE z.typ=1 and i.pi≈Çkarz=z.pi≈Çkarz and i.mecz=z.mecz)>1)
 	BEGIN
     DECLARE @temp1 varchar (30)
     DECLARE @temp2 varchar (30)
     DECLARE @zmiana INT
 
-   SET @temp1=  (SELECT imiÍ FROM Pi≥karze 
-					WHERE nr_licencji=  (SELECT pi≥karz FROM inserted));
-    SET @temp2=  (SELECT nazwisko FROM Pi≥karze 
-					WHERE nr_licencji=  (SELECT pi≥karz FROM inserted));
-    SET @zmiana= (SELECT dodatek_p≥acowy FROM  Typy_zdarzeÒ 
+   SET @temp1=  (SELECT imiƒô FROM Pi≈Çkarze 
+					WHERE nr_licencji=  (SELECT pi≈Çkarz FROM inserted));
+    SET @temp2=  (SELECT nazwisko FROM Pi≈Çkarze 
+					WHERE nr_licencji=  (SELECT pi≈Çkarz FROM inserted));
+    SET @zmiana= (SELECT dodatek_p≈Çacowy FROM  Typy_zdarze≈Ñ 
 						WHERE id_zdarzenia = (SELECT typ FROM inserted))
 	UPDATE
-    Pi≥karze
+    Pi≈Çkarze
 	SET
     dodatki = dodatki + (2*@zmiana)
 	WHERE nr_licencji= (SELECT nr_licencji FROM inserted)	
-	PRINT ' PodwÛjna premia za ustrzelenie hattricka dla ' 
-		+ @temp1+ ' ' + @temp2 + ' premia ' + CAST((@zmiana*2) AS VARCHAR)+'Ä'
+	PRINT ' Podw√≥jna premia za ustrzelenie hattricka dla ' 
+		+ @temp1+ ' ' + @temp2 + ' premia ' + CAST((@zmiana*2) AS VARCHAR)+'‚Ç¨'
 	END
  ELSE
  BEGIN
- INSERT  into Zdarzenia_meczowe (mecz,pi≥karz,typ,minuta) select mecz,pi≥karz,typ,minuta from inserted
+ INSERT  into Zdarzenia_meczowe (mecz,pi≈Çkarz,typ,minuta) select mecz,pi≈Çkarz,typ,minuta from inserted
  END 
  GO
 

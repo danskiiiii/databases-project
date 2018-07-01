@@ -14,14 +14,14 @@ IF OBJECT_ID('Mecze', 'U') IS NOT NULL
 IF OBJECT_ID('Trenerzy', 'U') IS NOT NULL 
 	DROP TABLE Trenerzy;
 
-IF OBJECT_ID('Pi≥karze', 'U') IS NOT NULL 
-	DROP TABLE Pi≥karze;
+IF OBJECT_ID('Pi≈Çkarze', 'U') IS NOT NULL 
+	DROP TABLE Pi≈Çkarze;
 	
-IF OBJECT_ID('Typy_zdarzeÒ', 'U') IS NOT NULL 
-	DROP TABLE Typy_zdarzeÒ;
+IF OBJECT_ID('Typy_zdarze≈Ñ', 'U') IS NOT NULL 
+	DROP TABLE Typy_zdarze≈Ñ;
 	
-IF OBJECT_ID('Druøyny', 'U') IS NOT NULL 
-	DROP TABLE Druøyny;
+IF OBJECT_ID('Dru≈ºyny', 'U') IS NOT NULL 
+	DROP TABLE Dru≈ºyny;
 
 IF OBJECT_ID('Stadiony', 'U') IS NOT NULL 
 	DROP TABLE Stadiony;
@@ -32,42 +32,42 @@ CREATE TABLE Stadiony(
     id_stadionu  INT NOT NULL PRIMARY KEY,
 	nazwa        VARCHAR(20) NOT NULL,
     miasto       VARCHAR(40) NOT NULL,
-	pojemnoúÊ    INT NOT NULL,
+	pojemno≈õƒá    INT NOT NULL,
 );
 
-CREATE TABLE Typy_zdarzeÒ(
+CREATE TABLE Typy_zdarze≈Ñ(
     id_zdarzenia INT NOT NULL PRIMARY KEY,
 	nazwa        VARCHAR(20) NOT NULL UNIQUE,
-    dodatek_p≥acowy   MONEY   
+    dodatek_p≈Çacowy   MONEY   
 );
 
-CREATE TABLE Druøyny(
-    id_druøyny   INT NOT NULL PRIMARY KEY,
+CREATE TABLE Dru≈ºyny(
+    id_dru≈ºyny   INT NOT NULL PRIMARY KEY,
 	nazwa        VARCHAR(20) NOT NULL,
     miasto       VARCHAR(40) NOT NULL,
-	rok_za≥oøenia  INT NOT NULL,
+	rok_za≈Ço≈ºenia  INT NOT NULL,
     stadion      INT REFERENCES Stadiony(id_stadionu),
-	CHECK (rok_za≥oøenia  between 1800 and 2018)	
+	CHECK (rok_za≈Ço≈ºenia  between 1800 and 2018)	
 );
 
-CREATE TABLE Pi≥karze(
+CREATE TABLE Pi≈Çkarze(
     nr_licencji  INT IDENTITY (20001,1) PRIMARY KEY,
-	imiÍ         VARCHAR(20) NOT NULL,
+	imiƒô         VARCHAR(20) NOT NULL,
     nazwisko     VARCHAR(30) NOT NULL,
-	narodowoúÊ   VARCHAR(20) NOT NULL,
-    druøyna      INT REFERENCES Druøyny(id_druøyny),
+	narodowo≈õƒá   VARCHAR(20) NOT NULL,
+    dru≈ºyna      INT REFERENCES Dru≈ºyny(id_dru≈ºyny),
     pensja       MONEY NOT NULL,
     dodatki      MONEY DEFAULT 0,
-    niedostÍpnoúÊ  DATETIME
+    niedostƒôpno≈õƒá  DATETIME
 );
 
 CREATE TABLE Trenerzy(
     nr_licencji  INT IDENTITY (10001,1) PRIMARY KEY,
-	imiÍ         VARCHAR(20) NOT NULL,
+	imiƒô         VARCHAR(20) NOT NULL,
     nazwisko     VARCHAR(30) NOT NULL,
 	stanowisko   VARCHAR(20) NOT NULL,
-	narodowoúÊ   VARCHAR(20) NOT NULL,
-    druøyna      INT REFERENCES Druøyny(id_druøyny),
+	narodowo≈õƒá   VARCHAR(20) NOT NULL,
+    dru≈ºyna      INT REFERENCES Dru≈ºyny(id_dru≈ºyny),
     pensja       MONEY NOT NULL,
     dodatki      MONEY DEFAULT 0
 );
@@ -75,18 +75,18 @@ CREATE TABLE Trenerzy(
 CREATE TABLE Mecze(
     nr_meczu	 INT IDENTITY(101,1) NOT NULL PRIMARY KEY,
 	data_        DATETIME NOT NULL,
-	gospodarze   INT REFERENCES Druøyny(id_druøyny),
+	gospodarze   INT REFERENCES Dru≈ºyny(id_dru≈ºyny),
 	bramki_gosp  INT DEFAULT 0,
-	goúcie		 INT REFERENCES Druøyny(id_druøyny),
-	bramki_goúÊ  INT DEFAULT 0,
+	go≈õcie		 INT REFERENCES Dru≈ºyny(id_dru≈ºyny),
+	bramki_go≈õƒá  INT DEFAULT 0,
 	widownia     INT DEFAULT 0	   
 );
 
 CREATE TABLE Zdarzenia_meczowe(
     nr_zdarzenia INT IDENTITY (1,1) PRIMARY KEY,
 	mecz         INT REFERENCES Mecze(nr_meczu),
-    pi≥karz      INT REFERENCES Pi≥karze(nr_licencji),
-    typ          INT REFERENCES Typy_zdarzeÒ(id_zdarzenia),
+    pi≈Çkarz      INT REFERENCES Pi≈Çkarze(nr_licencji),
+    typ          INT REFERENCES Typy_zdarze≈Ñ(id_zdarzenia),
 	minuta       INT NOT NULL,
 	CHECK (minuta between 0 and 90)   
 );
@@ -100,45 +100,45 @@ INSERT INTO Stadiony     VALUES ( 4, 'Anfield','Liverpool', 54074 );
 INSERT INTO Stadiony     VALUES ( 5, 'Wembley','London', 90000 );
 INSERT INTO Stadiony     VALUES ( 6, 'Emirates','London', 60432 );
 
-INSERT INTO Typy_zdarzeÒ VALUES ( 1, 'gol', 1000 );
-INSERT INTO Typy_zdarzeÒ VALUES ( 2, 'asysta',500);
-INSERT INTO Typy_zdarzeÒ VALUES ( 3, 'øÛ≥ta kartka', -200 );
-INSERT INTO Typy_zdarzeÒ VALUES ( 4, 'czerwona kartka', -1500);
-INSERT INTO Typy_zdarzeÒ VALUES ( 5, 'kontuzja', NULL );
+INSERT INTO Typy_zdarze≈Ñ VALUES ( 1, 'gol', 1000 );
+INSERT INTO Typy_zdarze≈Ñ VALUES ( 2, 'asysta',500);
+INSERT INTO Typy_zdarze≈Ñ VALUES ( 3, '≈º√≥≈Çta kartka', -200 );
+INSERT INTO Typy_zdarze≈Ñ VALUES ( 4, 'czerwona kartka', -1500);
+INSERT INTO Typy_zdarze≈Ñ VALUES ( 5, 'kontuzja', NULL );
 
-INSERT INTO  Druøyny    VALUES ( 1, 'Man.City', 'Manchester', 1894, 1 );
-INSERT INTO  Druøyny    VALUES ( 2, 'Man.United', 'Manchester', 1878, 2  );
-INSERT INTO  Druøyny    VALUES ( 3, 'Chelsea', 'London', 1905, 3  );
-INSERT INTO  Druøyny    VALUES ( 4, 'Liverpool F.C.', 'Liverpool', 1892, 4  );
-INSERT INTO  Druøyny    VALUES ( 5, 'Tottenham', 'London', 1882, 5  );
-INSERT INTO  Druøyny    VALUES ( 6, 'Arsenal', 'London', 1886, 6  );
+INSERT INTO  Dru≈ºyny    VALUES ( 1, 'Man.City', 'Manchester', 1894, 1 );
+INSERT INTO  Dru≈ºyny    VALUES ( 2, 'Man.United', 'Manchester', 1878, 2  );
+INSERT INTO  Dru≈ºyny    VALUES ( 3, 'Chelsea', 'London', 1905, 3  );
+INSERT INTO  Dru≈ºyny    VALUES ( 4, 'Liverpool F.C.', 'Liverpool', 1892, 4  );
+INSERT INTO  Dru≈ºyny    VALUES ( 5, 'Tottenham', 'London', 1882, 5  );
+INSERT INTO  Dru≈ºyny    VALUES ( 6, 'Arsenal', 'London', 1886, 6  );
 
-INSERT INTO  Pi≥karze    VALUES (  'Kevin', 'De Bruyne', 'Belgia', 1, 180000 , 5500, NULL );
-INSERT INTO  Pi≥karze    VALUES (  'Gabriel', 'Jesus', 'Brazylia', 1, 150000 , 1500,NULL );
-INSERT INTO  Pi≥karze    VALUES (  'David', 'Silva', 'Hiszpania', 1, 190000 , 7500, NULL);
-INSERT INTO  Pi≥karze    VALUES (  'Sergio', 'Aguero', 'Argentyna', 1, 220000 , 1800, '02/25/2018' );
-INSERT INTO  Pi≥karze    VALUES (  'Paul', 'Pogba', 'Francja', 2, 250000 , 9500 , NULL);
-INSERT INTO  Pi≥karze    VALUES (  'Juan', 'Mata', 'Hiszpania', 2, 120000 , 15500 , NULL);
-INSERT INTO  Pi≥karze    VALUES (  'Romelu', 'Lukaku', 'Belgia', 2, 210000 , 2500, NULL );
-INSERT INTO  Pi≥karze    VALUES (  'Michael', 'Carrick', 'Anglia', 2, 150000 , 3500 , '04/03/2018');
-INSERT INTO  Pi≥karze    VALUES (  'Eden', 'Hazard', 'Belgia', 3, 230000 , 1500, NULL );
-INSERT INTO  Pi≥karze    VALUES (  'David', 'Luiz', 'Brazylia', 3, 180000 , 2500, NULL );
-INSERT INTO  Pi≥karze    VALUES (  'Alvaro', 'Morata', 'Hiszpania', 3, 150000 ,1200 , '02/10/2018' );
-INSERT INTO  Pi≥karze    VALUES (  'Roberto', 'Firmino', 'Brazylia', 4, 20000 , 1500, NULL );
-INSERT INTO  Pi≥karze    VALUES (  'Emre', 'Can', 'Niemcy', 4, 120000 , 4500, '03/12/2018' );
-INSERT INTO  Pi≥karze    VALUES (  'Sadio', 'Mane', 'Senegal', 4, 130000 , 5500, NULL );
-INSERT INTO  Pi≥karze    VALUES (  'Mohammed', 'Salah', 'Egipt', 4, 170000 , 1500, NULL );
-INSERT INTO  Pi≥karze    VALUES (  'Harry', 'Kane', 'Anglia', 5, 250000 , 1100, NULL );
-INSERT INTO  Pi≥karze    VALUES (  'Christian', 'Eriksen', 'Dania', 5, 150000 , 1500, NULL );
-INSERT INTO  Pi≥karze    VALUES (  'Dele', 'Alli', 'Anglia', 5, 175000  , 3800, '02/02/2018' );
-INSERT INTO  Pi≥karze    VALUES (  'Alexandre', 'Lacazette', 'Francja', 6, 200000 , 1500, NULL );
-INSERT INTO  Pi≥karze    VALUES (  'Mesut', 'Ozil', 'Niemcy', 6, 210000 , 2500, NULL );
-INSERT INTO  Pi≥karze    VALUES (  'Danny', 'Welbeck', 'Anglia', 6, 140000 , 1500, NULL );
+INSERT INTO  Pi≈Çkarze    VALUES (  'Kevin', 'De Bruyne', 'Belgia', 1, 180000 , 5500, NULL );
+INSERT INTO  Pi≈Çkarze    VALUES (  'Gabriel', 'Jesus', 'Brazylia', 1, 150000 , 1500,NULL );
+INSERT INTO  Pi≈Çkarze    VALUES (  'David', 'Silva', 'Hiszpania', 1, 190000 , 7500, NULL);
+INSERT INTO  Pi≈Çkarze    VALUES (  'Sergio', 'Aguero', 'Argentyna', 1, 220000 , 1800, '02/25/2018' );
+INSERT INTO  Pi≈Çkarze    VALUES (  'Paul', 'Pogba', 'Francja', 2, 250000 , 9500 , NULL);
+INSERT INTO  Pi≈Çkarze    VALUES (  'Juan', 'Mata', 'Hiszpania', 2, 120000 , 15500 , NULL);
+INSERT INTO  Pi≈Çkarze    VALUES (  'Romelu', 'Lukaku', 'Belgia', 2, 210000 , 2500, NULL );
+INSERT INTO  Pi≈Çkarze    VALUES (  'Michael', 'Carrick', 'Anglia', 2, 150000 , 3500 , '04/03/2018');
+INSERT INTO  Pi≈Çkarze    VALUES (  'Eden', 'Hazard', 'Belgia', 3, 230000 , 1500, NULL );
+INSERT INTO  Pi≈Çkarze    VALUES (  'David', 'Luiz', 'Brazylia', 3, 180000 , 2500, NULL );
+INSERT INTO  Pi≈Çkarze    VALUES (  'Alvaro', 'Morata', 'Hiszpania', 3, 150000 ,1200 , '02/10/2018' );
+INSERT INTO  Pi≈Çkarze    VALUES (  'Roberto', 'Firmino', 'Brazylia', 4, 20000 , 1500, NULL );
+INSERT INTO  Pi≈Çkarze    VALUES (  'Emre', 'Can', 'Niemcy', 4, 120000 , 4500, '03/12/2018' );
+INSERT INTO  Pi≈Çkarze    VALUES (  'Sadio', 'Mane', 'Senegal', 4, 130000 , 5500, NULL );
+INSERT INTO  Pi≈Çkarze    VALUES (  'Mohammed', 'Salah', 'Egipt', 4, 170000 , 1500, NULL );
+INSERT INTO  Pi≈Çkarze    VALUES (  'Harry', 'Kane', 'Anglia', 5, 250000 , 1100, NULL );
+INSERT INTO  Pi≈Çkarze    VALUES (  'Christian', 'Eriksen', 'Dania', 5, 150000 , 1500, NULL );
+INSERT INTO  Pi≈Çkarze    VALUES (  'Dele', 'Alli', 'Anglia', 5, 175000  , 3800, '02/02/2018' );
+INSERT INTO  Pi≈Çkarze    VALUES (  'Alexandre', 'Lacazette', 'Francja', 6, 200000 , 1500, NULL );
+INSERT INTO  Pi≈Çkarze    VALUES (  'Mesut', 'Ozil', 'Niemcy', 6, 210000 , 2500, NULL );
+INSERT INTO  Pi≈Çkarze    VALUES (  'Danny', 'Welbeck', 'Anglia', 6, 140000 , 1500, NULL );
 
 INSERT INTO  Trenerzy    VALUES (  'Josep', 'Guardiola', 'Head Coach' ,'Hiszpania', 1, 220000 , 1500 );
 INSERT INTO  Trenerzy    VALUES (  'Jason', 'Wilcox', 'Head of Academy' ,'Anglia', 1,	19000 , 100  );
 INSERT INTO  Trenerzy    VALUES (  'Jose', 'Mourinho', 'Manager' ,'Portugalia', 2, 200000 , 1900  );
-INSERT INTO  Trenerzy    VALUES (  'Antonio', 'Conte', 'Head Coach' ,'W≥ochy', 3, 190000 , 1500  );
+INSERT INTO  Trenerzy    VALUES (  'Antonio', 'Conte', 'Head Coach' ,'W≈Çochy', 3, 190000 , 1500  );
 INSERT INTO  Trenerzy    VALUES (  'Guy', 'Laurence', 'Technical director' ,'Anglia', 3, 18000 , 500  );
 INSERT INTO  Trenerzy    VALUES (  'Julio', 'Tous', 'Fitness coach' ,'Hiszpania', 3, 7000 , 100  );
 INSERT INTO  Trenerzy    VALUES (  'Jurgen', 'Klopp', 'Manager' ,'Niemcy', 4, 170000 , 1500  );
@@ -175,13 +175,13 @@ INSERT INTO  Zdarzenia_meczowe VALUES ( 103 , 20007 , 1  , 50  );
 
 
 --SELECT
-SELECT * FROM Pi≥karze;
+SELECT * FROM Pi≈Çkarze;
 SELECT * FROM Trenerzy;
-SELECT * FROM Druøyny;
+SELECT * FROM Dru≈ºyny;
 SELECT * FROM Stadiony;
 SELECT * FROM Mecze;
 SELECT * FROM Zdarzenia_meczowe ;
-SELECT * FROM Typy_zdarzeÒ;
+SELECT * FROM Typy_zdarze≈Ñ;
 
 
 
